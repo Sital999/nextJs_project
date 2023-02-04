@@ -74,7 +74,7 @@ const checkAnswer = (answer:string,correctAnswer:string)=>{
                 onClick={() => {
                   dispatch(fetchQuizAPi());
                   setIsSubmit(false);
-                  dispatch(reset())
+                  dispatch(reset());
                 }}
               >
                 Play Again
@@ -83,7 +83,7 @@ const checkAnswer = (answer:string,correctAnswer:string)=>{
           </>
         )}
         {isLoading ? (
-          <>...Loading</>
+          <h2>...Loading</h2>
         ) : (
           <>
             {isClick ? (
@@ -95,7 +95,8 @@ const checkAnswer = (answer:string,correctAnswer:string)=>{
                   >
                     {isSubmit ? (
                       <>
-                        Congratulations your correct answer is {correctAnswerNumber}
+                        Congratulations your correct answer is{" "}
+                        {correctAnswerNumber}
                       </>
                     ) : (
                       <>
@@ -176,17 +177,17 @@ const checkAnswer = (answer:string,correctAnswer:string)=>{
                             </div>
                           );
                         })}
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          className="bg-blue-600 mt-6 hover:bg-slate-800"
-                          onClick={() => setIsSubmit(!isSubmit)}
-                        >
-                          Submit
-                        </Button>
                       </>
                     )}
                   </Paper>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    className="bg-blue-600 mt-6 hover:bg-slate-800"
+                    onClick={() => setIsSubmit(!isSubmit)}
+                  >
+                    Submit
+                  </Button>
                 </Container>
               </>
             ) : (
