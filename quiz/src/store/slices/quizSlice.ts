@@ -5,24 +5,28 @@ interface ErrorMessage {
 }
 
 interface QuizState {
-  data: [];
+  datas: [];
   isLoading: boolean;
   error: null;
   correctAnswerNumber: number;
+  isClick:boolean
 }
 
 const initialState: QuizState = {
-  data: [],
+  datas: [],
   isLoading: false,
   error: null,
-  correctAnswerNumber:0
+  correctAnswerNumber:0,
+  isClick: false
 };
 
-export const fetchQuizAPi = createAsyncThunk(
+export const fetchQuizAPI = createAsyncThunk(
   "quiz/fetchAPI",
   async (__, thunkApi) => {
     const response = await fetch("https://the-trivia-api.com/api/questions/");
-    if (response.status === 400) {
+    console.log(response);
+    if (response.status === 404) {
+      
       // Return the known error for future handling
       return thunkApi.rejectWithValue((await response.json()) as ErrorMessage);
     }
@@ -39,19 +43,36 @@ export const quizSlice = createSlice({
     },
     reset:(state)=>{
         state.correctAnswerNumber=0
+    },
+    setIsClick:(state)=>{
+      state.isClick=!state.isClick;
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchQuizAPi.pending, (state) => {
+    builder.addCase(fetchQuizAPI.pending, (state) => {
       state.isLoading = true;
     }),
-      builder.addCase(fetchQuizAPi.fulfilled, (state, action) => {
+      builder.addCase(fetchQuizAPI.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.data = action.payload;
+        state.datas = action.payload;
+      })
+      builder.addCase(fetchQuizAPI.rejected, (state, action) => {
+        state.isLoading = false;
+
       })
       
   },
 });
 
-export const {setCorrectAnswerNumber,reset}=quizSlice.actions
+export const {setCorrectAnswerNumber,reset,setIsClick}=quizSlice.actions
 export default quizSlice.reducer;
+
+
+
+// RTK QUERY
+
+
+
+
+
+
