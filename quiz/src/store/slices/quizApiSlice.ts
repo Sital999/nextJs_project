@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export interface quizResponse{
+export interface IquizResponse{
   id: string,
   categories: string,
   correctAnswer: string,
@@ -13,42 +13,42 @@ export interface quizResponse{
   isNiche:boolean
 }
 
-interface quizResponses extends Array<quizResponse> {}
+export interface IquizResponses extends Array<IquizResponse> {}
 
 export const quizApi = createApi({
   reducerPath: "quizApi",
   baseQuery: fetchBaseQuery({ baseUrl: "https://the-trivia-api.com/api/" }),
-  tagTypes:['Quiz'],
+  tagTypes: ["Quiz"],
   endpoints: (builder) => ({
     getAllQuiz: builder.query({
       query: () => "questions",
-      transformResponse: (response: quizResponses) => {
+      transformResponse: (response: IquizResponses) => {
         // for randomizing answers
         var answers: string[] = [];
         var shuffledAnswer: string[] = [];
-        return response.map((res: quizResponse) => {
+        return response.map((res: IquizResponse) => {
           answers = [...res.incorrectAnswers, res.correctAnswer];
           shuffledAnswer = shuffle(answers);
           return {
-            id:res.id,
+            id: res.id,
             question: res.question,
             correctAnswer: res.correctAnswer,
             answers: shuffledAnswer,
           };
         });
       },
-      transformErrorResponse:(response)=>{
-        return {error:"Page not Found",status:response.status}
+      transformErrorResponse: (response) => {
+        return { error: "Page not Found", status: response.status };
       },
     }),
   }),
 });
 
-export const { useGetAllQuizQuery } = quizApi;
+export const { useGetAllQuizQuery,useLazyGetAllQuizQuery } = quizApi;
 
 
   // shuffling answers for randomness
-  const shuffle = (array: string[]) => {
+export const shuffle = (array: string[]) => {
     let currentIndex = array.length,
       randomIndex;
 

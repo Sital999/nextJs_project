@@ -1,69 +1,71 @@
-import type { NextPage } from "next";
 import { useState } from "react";
-import { Paper, Container, Button } from "@mui/material";
-import { useSelector, useDispatch } from "../../store/store";
-import QuizRadioButton from "./QuizRadioButton";
-import { setIsClick } from "../../store/slices/quizSlice";
+import { Paper, Container ,Typography} from "@mui/material";
+// import { useSelector, useDispatch } from "../../store/store";
+import QuizAnswerButton from "./QuizAnswerButton";
+import { useRouter } from "next/router";
 
-interface customResponse {
-  id: string;
+
+
+export interface IcustomQuizResponse{
+  id:string;
   question: string;
-  answers: string[];
   correctAnswer: string;
+  answers:Array<string>;
 }
 
-const QuizContainer: NextPage = ({ datas }) => {
-  const dispatch = useDispatch();
-  const [isSubmit, setIsSubmit] = useState(false);
-  const { correctAnswerNumber } = useSelector((state) => state.quiz);
+export interface IcontainerProps{
+  data:IcustomQuizResponse;
+  questionNumber:number
+}
+
+
+const QuizContainer = (
+  { data,questionNumber }: IcontainerProps
+) => {
+  // const dispatch = useDispatch();
+  // const { correctAnswerNumber } = useSelector((state) => state.quiz);
+  const router=useRouter()
+
+  const handleClick = () => {
+    if (questionNumber==10)
+    {
+      router.push('/quiz/result')
+    }
+    else{
+    router.push(`/quiz/${questionNumber + 1}`);
+
+    }
+  };
 
   return (
-    <Container className="bg-slate-400 m-4 p-4 rounded-md">
-      {isSubmit ? (
-        <>
-          <div className="flex justify-center mb-4">
-            <Button
-              variant="contained"
-              className="bg-blue-500"
-              onClick={() => {
-                dispatch(setIsClick());
-              }}
-            >
-              Play Again
-            </Button>
-          </div>
-          <Paper className="p-2 bg-gray-200 text-slate-900" elevation={20}>
-            Congratulations your correct answer is {correctAnswerNumber}
-          </Paper>
-        </>
-      ) : (
-        <>
-          <Paper className="p-2 bg-gray-200 text-slate-900" elevation={20}>
-            {datas.map((data: customResponse) => {
-              return (
-                <div key={data.id}>
-                  <h3 className="font-semibold text-lg p-1">{data.question}</h3>
+    <Container className="bg-cyan-700 p-8 pl-12 pr-12 rounded-2xl mt-12 max-h-max w-7/12 ">
+      <div className="flex flex-row flex-wrap space-y-8 mt-8 mb-8 place-content-around">
+        <div className="h-10 w-52 p-1 rounded-full bg-sky-900 shadow-lg shadow-zinc-500 z-20 absolute">
+          <Typography variant="h6" align="center">
+            Question No: {questionNumber}
+          </Typography>
+        </div>
+        <Paper
+          className="basis-full p-3 bg-zinc-300 shadow-xl shadow-slate-700 z-10  "
+          elevation={24}
+        >
+          <Typography variant="h4" align="center">
+            {data.question}
+            {data.correctAnswer}
+          </Typography>
+        </Paper>
+        <QuizAnswerButton
+          answers={data.answers}
+          correctAnswer={data.correctAnswer}
+        />
 
-                  <QuizRadioButton
-                    answers={data.answers}
-                    correctAnswer={data.correctAnswer}
-                  />
-                </div>
-              );
-            })}
-            <Button
-              fullWidth
-              variant="contained"
-              className="bg-blue-600 mt-6 hover:bg-slate-800"
-              onClick={() => {
-                setIsSubmit(!isSubmit);
-              }}
-            >
-              Submit
-            </Button>
-          </Paper>
-        </>
-      )}
+
+        <button className=" h-10 w-48 rounded-full  bg-cyan-600 shadow-2xl shadow-slate-900 text-slate-100 hover:bg-blue-800"
+        onClick={handleClick}
+        >
+          {questionNumber==10?"Submit":"Next"}
+        </button>
+      </div>
     </Container>
   );
 };
