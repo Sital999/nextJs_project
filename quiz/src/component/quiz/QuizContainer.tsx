@@ -3,37 +3,19 @@ import { Paper, Container ,Typography} from "@mui/material";
 // import { useSelector, useDispatch } from "../../store/store";
 import QuizAnswerButton from "./QuizAnswerButton";
 import { useRouter } from "next/router";
+import {IQuizcontainerProps} from "../../Interface/component/interface"
 
 
-
-export interface IcustomQuizResponse{
-  id:string;
-  question: string;
-  correctAnswer: string;
-  answers:Array<string>;
-}
-
-export interface IcontainerProps{
-  data:IcustomQuizResponse;
-  questionNumber:number
-}
-
-
-const QuizContainer = (
-  { data,questionNumber }: IcontainerProps
-) => {
+const QuizContainer = ({ data, questionNumber }: IQuizcontainerProps) => {
   // const dispatch = useDispatch();
   // const { correctAnswerNumber } = useSelector((state) => state.quiz);
-  const router=useRouter()
+  const router = useRouter();
 
   const handleClick = () => {
-    if (questionNumber==10)
-    {
-      router.push('/quiz/result')
-    }
-    else{
-    router.push(`/quiz/${questionNumber + 1}`);
-
+    if (questionNumber == 10) {
+      router.push("/quiz/result");
+    } else {
+      router.push(`/quiz/${questionNumber + 1}`);
     }
   };
 
@@ -59,11 +41,11 @@ const QuizContainer = (
           correctAnswer={data.correctAnswer}
         />
 
-
-        <button className=" h-10 w-48 rounded-full  bg-cyan-600 shadow-2xl shadow-slate-900 text-slate-100 hover:bg-blue-800"
-        onClick={handleClick}
+        <button
+          className=" h-10 w-48 rounded-full  bg-cyan-600 shadow-2xl shadow-slate-900 text-slate-100 hover:bg-blue-800"
+          onClick={handleClick}
         >
-          {questionNumber==10?"Submit":"Next"}
+          {questionNumber == 10 ? "Submit" : "Next"}
         </button>
       </div>
     </Container>

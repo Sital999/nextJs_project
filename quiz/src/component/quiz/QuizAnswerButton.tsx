@@ -1,9 +1,6 @@
 import { useDispatch } from "../../store/store";
 import { setCorrectAnswerNumber } from "../../store/slices/quizSlice";
-interface IQuizRadioButtonProps{
-  answers:Array<string>;
-  correctAnswer:string
-}
+import {IQuizRadioButtonProps} from "../../Interface/component/interface"
 
 const QuizAnswerButton = ({ answers, correctAnswer }:IQuizRadioButtonProps) => {
 

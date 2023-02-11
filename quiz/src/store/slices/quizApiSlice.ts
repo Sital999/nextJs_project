@@ -1,19 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
-export interface IquizResponse{
-  id: string,
-  categories: string,
-  correctAnswer: string,
-  incorrectAnswers: string[],
-  question: string,
-  tags: string[],
-  type:string,
-  difficulty:string,
-  regions:string[],
-  isNiche:boolean
-}
-
-export interface IquizResponses extends Array<IquizResponse> {}
+import { IQuizResponse,IQuizResponses } from "../../Interface/store/interface";
 
 export const quizApi = createApi({
   reducerPath: "quizApi",
@@ -22,11 +8,11 @@ export const quizApi = createApi({
   endpoints: (builder) => ({
     getAllQuiz: builder.query({
       query: () => "questions",
-      transformResponse: (response: IquizResponses) => {
+      transformResponse: (response: IQuizResponses) => {
         // for randomizing answers
         var answers: string[] = [];
         var shuffledAnswer: string[] = [];
-        return response.map((res: IquizResponse) => {
+        return response.map((res: IQuizResponse) => {
           answers = [...res.incorrectAnswers, res.correctAnswer];
           shuffledAnswer = shuffle(answers);
           return {

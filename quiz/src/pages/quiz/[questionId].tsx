@@ -1,11 +1,8 @@
-import type { NextPage } from "next";
-import Link from "next/link";
 import {useRouter} from "next/router"
-import { IquizResponses } from "../../store/slices/quizApiSlice";
-import { IquizResponse } from "../../store/slices/quizApiSlice";
 import QuizContainer from "../../component/quiz/QuizContainer"
 import { shuffle } from "../../store/slices/quizApiSlice";
-import {IcustomQuizResponse} from "../../component/quiz/QuizContainer"
+import {IcustomQuizResponse} from "../../Interface/page/interface"
+import {IQuizResponse} from "../../Interface/store/interface"
 
 
 
@@ -28,7 +25,7 @@ export async function getStaticPaths(){
         const response = await fetch("https://the-trivia-api.com/api/questions");
         const datas= await response.json();
 
-        const paths=datas.map((data:IquizResponse,index:number)=>{
+        const paths=datas.map((data:IQuizResponse,index:number)=>{
           // console.log(data)
             return{
                 params:{

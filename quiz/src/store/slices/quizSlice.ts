@@ -1,16 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-
-interface ErrorMessage {
-  message: string;
-}
-
-interface QuizState {
-  datas: [];
-  isLoading: boolean;
-  error: null;
-  correctAnswerNumber: number;
-  isClick:boolean
-}
+import { QuizState,ErrorMessage } from "../../Interface/store/interface";
 
 const initialState: QuizState = {
   datas: [],

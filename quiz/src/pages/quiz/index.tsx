@@ -11,11 +11,7 @@ import {IquizResponses} from "../../store/slices/quizApiSlice"
 import Link from "next/link";
 
 
-interface IQuizData{
-  data:IquizResponses;
-  // making other params dynamic fields for customization
-  [prop:string]:any
-}
+
 
 const QuizPage: NextPage = () => {
   const dispatch = useDispatch();
